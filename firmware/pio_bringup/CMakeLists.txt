@@ -87,3 +87,4 @@ target_link_libraries(nespico_pio_bringup PRIVATE
 pico_enable_stdio_usb(nespico_pio_bringup 1)
 pico_enable_stdio_uart(nespico_pio_bringup 0)
 pico_add_extra_outputs(nespico_pio_bringup)
+target_compile_definitions(nespico_pio_bringup PRIVATE USBD_MANUFACTURER="LASAGNA2354" USBD_PRODUCT="LASAGNA2354 pio_bringup")

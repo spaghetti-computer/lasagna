@@ -1,0 +1,38 @@
+; Read-only access probe. TX: word0 = addr lo|hi<<8|ctl<<16 (24 bits), word1 = d (>=1).
+; PPU: side bit0 = ALE, bit1 = STB. CPU variant below swaps them. Sample happens d+1 clocks after strobe.
+.program rom_read_ppu
+.side_set 2
+    pull block            side 0
+    mov pindirs, ~null    side 0
+    out pins, 8           side 0
+    nop                   side 1
+    out pins, 8           side 0
+    nop                   side 1
+    out pins, 8           side 0
+    nop                   side 1
+    mov pindirs, null     side 0
+    pull block            side 0
+    out x, 32             side 2   ; strobe asserted
+dly:
+    jmp x-- dly           side 2
+    in pins, 8            side 2
+    push block            side 0   ; strobe released
+
+; CPU variant: Rev.B puts M2 on GP16 (bit0) and CPU_ALE on GP17 (bit1), so side values are swapped.
+.program rom_read_cpu
+.side_set 2
+    pull block            side 0
+    mov pindirs, ~null    side 0
+    out pins, 8           side 0
+    nop                   side 2
+    out pins, 8           side 0
+    nop                   side 2
+    out pins, 8           side 0
+    nop                   side 2
+    mov pindirs, null     side 0
+    pull block            side 0
+    out x, 32             side 1   ; strobe asserted
+dly:
+    jmp x-- dly           side 1
+    in pins, 8            side 1
+    push block            side 0   ; strobe released

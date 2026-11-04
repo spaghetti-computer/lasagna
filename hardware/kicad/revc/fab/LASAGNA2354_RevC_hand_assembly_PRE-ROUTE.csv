@@ -1,0 +1,11 @@
+Designator,Value,Footprint,Note
+J3,Famicom_60pin_slot,NESPICO_RevC:Hirose_CR22A-60D-2.54DS,"HAND-SOLDER, OWNED (Leo; Sengoku). Hirose CR22A-60D-2.54DS(70); footprint from CR22 catalog D49647. Pins 31,45,46 (audio) NC"
+L1,3.3uH,NESPICO_RevC:RPi_AOTA-B201610S3R3-101-T,HAND-SOLDER (LCSC stock 0): pad1 dot = +1V1 as RP2350 Minimal R4; footprint copied from it
+J7,SWD,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,
+J6,RCA_CVBS,NESPICO_RevC:RCA_Avvicon_MJ-526,HAND-SOLDER Akizuki 112477 MJ-526-Y; footprint from Avvicon drawing MJ-526 2012/09/09
+J4,PAD_J4,Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical,3.3 V pad only (GPIO44-47 not FT)
+J5,PAD_J5,Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical,3.3 V pad only (GPIO44-47 not FT)
+H1,M3,MountingHole:MountingHole_3.2mm_M3_Pad,mounting hole
+H2,M3,MountingHole:MountingHole_3.2mm_M3_Pad,mounting hole
+H3,M3,MountingHole:MountingHole_3.2mm_M3_Pad,mounting hole
+H4,M3,MountingHole:MountingHole_3.2mm_M3_Pad,mounting hole

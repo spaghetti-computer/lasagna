@@ -1,0 +1,32 @@
+Designator,Value,Footprint,Note
+U1,WeAct RP2350B,NESPICO_RevC:WeAct_RP2350B_CoreBoard,"WeAct Studio RP2350B Core Board V1.0 (16 MB flash). H1 101-130, H2 201-230. VBUS (H1-1, raw USB) feeds F1; H1-2 (+5V after diode), H2-3 3V3_EN and H1-5 VREF are NC; H2-8 RUN goes to the DNP reset header J12. LIFT module R16 (GP23 KEY) and never fit the PSRAM/flash2 footprint U7 (CS = GP0). GP25 drives the module LED via 5.1k (CADM0: harmless)."
+J3,Famicom_60pin_slot,NESPICO_RevC:Hirose_CR22A-60D-2.54DS,"HAND-SOLDER, OWNED (Leo; Sengoku). Hirose CR22A-60D-2.54DS(70); footprint from CR22 catalog D49647. Pins 31, 45 NC; 46 = audio from cart (R62, DNP)"
+R42,10k,Resistor_SMD:R_0603_1608Metric,DNP (Lite option). 
+R43,10k,Resistor_SMD:R_0603_1608Metric,DNP (Lite option). 
+R90,910,Resistor_SMD:R_0603_1608Metric,DNP (Lite option). 
+R91,470,Resistor_SMD:R_0603_1608Metric,DNP (Lite option). 
+R92,220,Resistor_SMD:R_0603_1608Metric,DNP (Lite option). 
+J6,RCA_CVBS,NESPICO_RevC:RCA_Avvicon_MJ-526,DNP (Lite option). HAND-SOLDER Akizuki 112477 MJ-526-Y; footprint from Avvicon drawing MJ-526 2012/09/09
+J4,PAD_J4,Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical,DNP (Lite option). 3.3 V pad only (GPIO44-47 not FT)
+J5,PAD_J5,Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical,DNP (Lite option). 3.3 V pad only (GPIO44-47 not FT)
+U10,MCP23017-E/SS,Package_SO:SSOP-28_5.3x10.2mm_P0.65mm,DNP (Lite option). 3.3 V; pads (4021) also on 3.3 V so no level shifting is needed
+R51,10k,Resistor_SMD:R_0603_1608Metric,DNP (Lite option). U10 reset high
+R52,4.7k,Resistor_SMD:R_0603_1608Metric,DNP (Lite option). I2C pull-up
+R53,4.7k,Resistor_SMD:R_0603_1608Metric,DNP (Lite option). I2C pull-up
+J9,HY2.0-4P,Connector_JST:JST_PH_S4B-PH-SM4-TB_1x04-1MP_P2.00mm_Horizontal,"DNP (Lite option). Grove I2C, Seeed standard: 1 SCL (GPIO45), 2 SDA (GPIO44), 3 VCC 3V3, 4 GND"
+C27,100nF,Capacitor_SMD:C_0603_1608Metric,DNP (Lite option). decouple U10
+D2,SS34,Diode_SMD:D_SMA,DNP option: VBUS series Schottky for FPC-backfeed protection; fit D2 AND cut JP1 (default bridged)
+JP1,CUT=USE D,Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm,bridged by default (VBUS direct); cut it when D2 is fitted
+JP2,SHORT=BYPASS F,Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm,normally open; solder-short to bypass PTC F1
+J10,EXP,Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical,"expansion: 3V3, GPIO46, GPIO47, GND, 5V. GPIO46/47 are 3.3 V ADC pins, NOT 5 V tolerant"
+J12,RST,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,optional external RESET: short RUN to GND (module also has its own RST/BOOT buttons)
+R60,1k,Resistor_SMD:R_0603_1608Metric,"DNP (Lite option: audio). audio PWM series R (RC low-pass with C60, fc 15.9 kHz)"
+C60,10nF,Capacitor_SMD:C_0603_1608Metric,DNP (Lite option: audio). audio RC low-pass C
+C61,10uF,Capacitor_SMD:C_0805_2012Metric,DNP (Lite option: audio). audio DC-block C (pin 1 = filter side)
+R61,10k,Resistor_SMD:R_0603_1608Metric,DNP (Lite option: audio). audio output bleed to GND (keeps C61 output at 0 V DC)
+R62,1k,Resistor_SMD:R_0603_1608Metric,"DNP (Lite option: audio). mix cart expansion audio (cart pin 46, Audio to RF) into AUD_F"
+J11,RCA_AUDIO,NESPICO_RevC:RCA_Avvicon_MJ-526,DNP (Lite option: audio). HAND-SOLDER Akizuki 112477 MJ-526-Y (same as J6)
+H1,M3,MountingHole:MountingHole_3.2mm_M3_Pad,mounting hole
+H2,M3,MountingHole:MountingHole_3.2mm_M3_Pad,mounting hole
+H3,M3,MountingHole:MountingHole_3.2mm_M3_Pad,mounting hole
+H4,M3,MountingHole:MountingHole_3.2mm_M3_Pad,mounting hole

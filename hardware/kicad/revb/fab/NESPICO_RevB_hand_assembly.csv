@@ -1,0 +1,14 @@
+Designator,Value,Footprint,Note
+J1,Pico2_pins1-20,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,hand-solder socket
+J2,Pico2_pins40-21,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,pad k = Pico pin 41-k
+J3,Famicom_60pin_slot,Connector_PinHeader_2.54mm:PinHeader_2x30_P2.54mm_Vertical,PLACEHOLDER footprint: 2x30 2.54mm header grid; real slot row spacing/mechanics UNVERIFIED
+SJ3,SR_QH|STAT|PAR,Jumper:SolderJumper-3_P1.3mm_Bridged12_Pad1.0x1.5mm,default 1-2 bridged = shift chain
+J5,Famicom_expansion_DA15,Connector_Dsub:DSUB-15_Socket_Horizontal_P2.77x2.84mm_EdgePinOffset9.40mm,pinout from memory of NESdev; VERIFY
+J6,RCA_CVBS,NESPICO_RevB:RCA_Jack_Generic_THT_UNVERIFIED,generic footprint UNVERIFIED vs actual jack
+J7,CVBS_ALT,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,
+SW1,CART_PWR,Button_Switch_THT:SW_DIP_SPSTx01_Slide_6.7x4.1mm_W7.62mm_P2.54mm_LowProfile,closed = cart power ON; also enables latch OE (CART_G low)
+SJ1,PU_CPU_EN,Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm,cut to remove CPU lane pull-ups
+SJ2,PU_PPU_EN,Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm,cut to remove PPU lane pull-ups
+J8,TP_BUS_CTRL,Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical,
+J9,TP_ADDR,Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical,
+J10,TP_SR_SPARE,Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical,

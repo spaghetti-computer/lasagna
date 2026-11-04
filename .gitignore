@@ -4,3 +4,17 @@
 # Python cache artifacts
 __pycache__/
 *.py[cod]
+
+# KiCad backups/locks
+*-backups/
+*.bak
+fp-info-cache
+*.lck
+\#auto_saved*
+_autosave-*
+
+# Virtualenvs / local caches
+.venv/
+venv/
+jlc_parts_cache.json
+.env
