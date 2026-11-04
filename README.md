@@ -1,4 +1,6 @@
-# NESPICO
+# LASAGNA2354 (ラザニア2354)
+
+> Project renamed from **NESPICO** to **ラザニア2354 / LASAGNA2354** (2026-10-13, working tree only). The Python package `nespico/`, the CLI, the GitHub repo name, firmware target names and older (Rev.A/B/bring-up) KiCad file names keep `nespico` / `NESPICO` for now, because renaming them would break imports, CI and existing artifacts.
 
 A low-cost USB Famicom cartridge reader and **live-cartridge console** experiment.
 

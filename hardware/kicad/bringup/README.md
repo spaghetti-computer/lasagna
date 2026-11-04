@@ -1,4 +1,4 @@
-# NESPICO Pico 2 8-bit bring-up fixture (draft)
+# LASAGNA2354 (ラザニア2354) Pico 2 8-bit bring-up fixture (draft)
 
 This is a **bench-test fixture**, not the full Famicom cartridge interface and **not a fabrication release**. It exercises two independent 8-bit paths around a standard, non-wireless Raspberry Pi Pico 2:
 
