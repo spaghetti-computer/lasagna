@@ -1,0 +1,100 @@
+; Rev.B timing-measurement sequences. Data lane = 8 OUT/IN pins, side-set
+; bit0 = ALE, bit1 = PPU_STB. Nothing external is connected; the "read"
+; samples the lane's own (pulled-down, Hi-Z) pads. Counts in comments are
+; PIO clocks per sequence. Measured on XIAO RP2350 (v1): CPU 18, PPU 21 incl. pull/push.
+
+.program cpu_seq
+.side_set 2
+    pull block            side 0 ; overhead (1)
+    mov pindirs, ~null    side 0 [1] ; turnaround to drive (2)
+    out pins, 8           side 0 ; addr lo  (load = 3)
+    nop                   side 1
+    nop                   side 0
+    out pins, 8           side 0 ; addr hi  (3)
+    nop                   side 1
+    nop                   side 0
+    out pins, 8           side 0 ; control  (3)
+    nop                   side 1
+    nop                   side 0
+    mov pindirs, null     side 0 [1] ; Hi-Z before cartridge drives (not in revb.py CPU budget: 2)
+    nop                   side 0 [1] ; 2-flop input sync allowance (2)
+    in pins, 8            side 0 ; sample (1)
+    push block            side 0 ; overhead (1)
+
+.program ppu_seq
+.side_set 2
+    pull block            side 0 ; overhead (1)
+    mov pindirs, ~null    side 0 [1] ; turnaround to drive (2)
+    out pins, 8           side 0 ; addr lo (3)
+    nop                   side 1
+    nop                   side 0
+    out pins, 8           side 0 ; addr hi (3)
+    nop                   side 1
+    nop                   side 0
+    mov pindirs, null     side 0 ; strobe setup / lane Hi-Z (1)
+    nop                   side 2 [1] ; PPU_STB asserted, sync (2)
+    in pins, 8            side 2 ; CHR sample (1)
+    nop                   side 0 [1] ; turnaround after read (2)
+    nop                   side 0 [1] ; status MUX select + settle (2)
+    nop                   side 0 [1] ; status sync (2)
+    in pins, 8            side 0 ; status sample (1)
+    push block            side 0 ; overhead (1)
+
+; v2: Hi-Z decay sweep. TX word 1 = pattern, word 2 = n (>=1).
+; The IN executes n+1 PIO clocks after the MOV PINDIRS (loop takes n clocks).
+.program hiz_decay
+    pull block
+    mov pindirs, ~null
+    out pins, 8 [7]       ; drive pattern 8 clocks
+    pull block
+    out x, 32
+    jmp x-- dec            ; x = n-1 (host sends n)
+dec:
+    mov pindirs, null
+dly:
+    jmp x-- dly
+    in pins, 8
+    push block
+
+; v2: sample on the very next clock after Hi-Z (delay = 1 clock).
+.program hiz_zero
+    pull block
+    mov pindirs, ~null
+    out pins, 8 [7]
+    mov pindirs, null
+    in pins, 8
+    push block
+
+; ---- v3 optimized candidates (proposal; pulse widths must be checked vs latch tw) ----
+; autopull (CPU 24 bits / PPU 16 bits) and autopush (CPU 8 / PPU 16) remove pull/push,
+; ALE high is a single side-set clock (~5.8 ns @172 MHz: check 74AHCT574 tw!),
+; Hi-Z is merged with the last ALE-low edge, .wrap removes the loop jump.
+.program cpu_opt
+.side_set 2
+.wrap_target
+    mov pindirs, ~null    side 0     ; drive (1)
+    out pins, 8           side 0     ; addr lo
+    nop                   side 1     ; ALE (2 per load)
+    out pins, 8           side 0     ; addr hi (ALE low)
+    nop                   side 1
+    out pins, 8           side 0     ; control
+    nop                   side 1
+    mov pindirs, null     side 0     ; ALE low + Hi-Z (1)
+    nop                   side 0 [1] ; input sync allowance (2)
+    in pins, 8            side 0     ; sample + autopush (1)  => 11 total
+.wrap
+
+.program ppu_opt
+.side_set 2
+.wrap_target
+    mov pindirs, ~null    side 0     ; drive (1)
+    out pins, 8           side 0     ; addr lo
+    nop                   side 1     ; (2)
+    out pins, 8           side 0     ; addr hi
+    nop                   side 1     ; (2)
+    mov pindirs, null     side 2     ; ALE low, Hi-Z, PPU_STB asserted (1)
+    nop                   side 2 [1] ; sync (2)
+    in pins, 8            side 0     ; CHR sample, strobe released (1)
+    nop                   side 0 [2] ; status MUX select + sync (3)
+    in pins, 8            side 0     ; status sample + autopush 16 (1)  => 13 total
+.wrap

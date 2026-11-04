@@ -1,0 +1,53 @@
+; NESPICO latch bench. OUT pins = GP0..GP3 (D0..D3), side-set = GP26 (ALE/LE/CLK).
+; IN pins base GP0, 32 bits -> each sample is a snapshot of all GPIOs, 1 sample/clk.
+; cmd word: [3:0] dirs0, [7:4] D0, [15:8] x (extra delay), [19:16] D1 or dirs1
+.program cap
+.side_set 1 opt
+public ale_head:            ; event = ALE rising edge, D held constant
+    pull block      side 0
+    out pindirs, 4
+    out pins, 4     [7] 
+    out x, 8        [7] 
+    jmp dl          side 1  ; event clk 0
+public d_head:              ; event = D change while ALE held high (transparent / decoder)
+    pull block      side 1
+    out pindirs, 4
+    out pins, 4     [7] 
+    out x, 8        [7] 
+    out pins, 4             ; event clk 0
+    jmp dl
+public rel_head:            ; event = bus release (pindirs -> input), measure pull recovery
+    pull block      side 0
+    out pindirs, 4
+    out pins, 4     [7] 
+    out x, 8        [7] 
+    out pindirs, 4          ; event clk 0
+    jmp dl
+dl:
+    jmp x-- dl
+    in pins, 32
+    in pins, 32
+    in pins, 32
+    in pins, 32
+    in pins, 32
+    in pins, 32
+    in pins, 32
+    in pins, 32
+public hold:
+    jmp hold
+
+; ALE pulse-width / hold sweep.
+; word: [3:0] p, [11:4] w-1, [19:12] h, [23:20] p2. ALE high w clk, D held h+1 clk after fall.
+.program pulse
+.side_set 1
+.wrap_target
+    pull block      side 0
+    out pins, 4     side 0
+    out x, 8        side 0
+    out y, 8        side 0 [3]
+pw: jmp x-- pw      side 1
+hl: jmp y-- hl      side 0
+    out pins, 4     side 0 [15]
+    nop             side 0 [15]
+    in pins, 32     side 0
+.wrap
