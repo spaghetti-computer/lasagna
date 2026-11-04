@@ -1,0 +1,12 @@
+(version 1)
+# JLCPCB 2-layer standard capability (1 oz), with small margins
+(rule "JLC track width" (constraint track_width (min 0.127mm)))
+(rule "JLC clearance" (constraint clearance (min 0.127mm)))
+(rule "JLC hole" (constraint hole_size (min 0.3mm)))
+(rule "JLC annular" (constraint annular_width (min 0.13mm)))
+(rule "JLC hole to hole" (constraint hole_to_hole (min 0.5mm)))
+(rule "JLC copper to edge" (constraint edge_clearance (min 0.3mm)))
+(rule "Power min width" (condition "A.NetClass == 'Power'") (constraint track_width (min 0.4mm) (opt 0.5mm) (max 0.6mm)))
+(rule "USB 90R diff pair" (condition "A.NetClass == 'USB_90R'")
+  (constraint diff_pair_gap (min 0.15mm) (opt 0.15mm)) (constraint track_width (min 0.2mm) (opt 0.2mm))
+  (constraint diff_pair_uncoupled (max 3mm)) (constraint skew (max 0.15mm)))
